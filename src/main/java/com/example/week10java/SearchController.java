@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.net.URL;
@@ -23,11 +24,23 @@ public class SearchController implements Initializable {
 
     @FXML
     void showMovies(ActionEvent event) {
+        listView.getItems().clear();
+        String searchText = searchTextField.getText();
+        ApiResponse apiResponse = ApiUtility.getDataFromApiQuick(searchText);
+        listView.getItems().addAll(apiResponse.getSearch());
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        listView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldMovie, newMovie) ->{
+            try {
+                imageView.setImage(new Image(newMovie.getPoster()));
+            }catch (Exception e){
+                imageView.setImage(new Image("https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png"));
+            }
+
+        } );
 
     }
 }

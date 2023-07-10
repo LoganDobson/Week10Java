@@ -34,4 +34,9 @@ public class Movie {
     public String getPoster() {
         return poster;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s (%s)", title,year);
+    }
 }
